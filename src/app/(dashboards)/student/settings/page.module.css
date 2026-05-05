@@ -1,0 +1,219 @@
+/* Settings Page CSS */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.title {
+  font-size: 24px;
+  color: #003366;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #334155;
+  font-size: 14px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.input:focus {
+  border-color: #003366;
+  outline: none;
+}
+
+.input:disabled {
+  background: #f8fafc;
+  cursor: not-allowed;
+  color: #94a3b8;
+  border-color: #e2e8f0;
+}
+
+.helpText {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+.saveBtn {
+  background: #003366;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  transition: 0.2s;
+  margin-top: 10px;
+}
+
+.saveBtn:hover {
+  background: #002244;
+}
+
+.saveBtn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Add to the bottom of page.module.css */
+
+/* Read-Only View Styles */
+.profileView {
+  margin-top: 20px;
+}
+
+.dataRow {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.dataRow:last-child {
+  border-bottom: none;
+}
+
+.dataLabel {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.dataValue {
+  font-size: 16px;
+  color: #003366;
+  font-weight: 500;
+  margin: 0;
+}
+
+.emptyValue {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* Button Layouts */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.editBtn {
+  background: white;
+  color: #003366;
+  border: 1px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.editBtn:hover {
+  background: #f8fafc;
+  border-color: #003366;
+}
+
+.actionRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancelBtn {
+  background: white;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+  transition: 0.2s;
+}
+
+.cancelBtn:hover {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+/* --- MOBILE RESPONSIVENESS (Max Width 768px) --- */
+@media (max-width: 768px) {
+  /* 1. Reclaim screen real estate */
+  .container {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 20px; /* Shrinks the massive 30px desktop padding */
+  }
+
+  /* 2. Stack the Header & Edit Button */
+  .headerRow {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .editBtn {
+    width: 100%;
+    text-align: center;
+    padding: 12px; /* Bigger thumb target */
+  }
+
+  /* 3. The iOS Zoom Fix */
+  .input {
+    font-size: 16px; /* STRICTLY REQUIRED: Prevents iPhones from auto-zooming on tap */
+    padding: 12px;
+  }
+
+  /* 4. Stack Form Action Buttons */
+  .actionRow {
+    flex-direction: column-reverse; /* Puts "Save" on top, "Cancel" on bottom */
+    gap: 12px;
+  }
+
+  .cancelBtn, .saveBtn {
+    width: 100%;
+    margin-top: 0;
+    padding: 14px; /* Massive targets for thumbs */
+  }
+}

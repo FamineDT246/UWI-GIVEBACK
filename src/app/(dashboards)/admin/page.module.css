@@ -1,0 +1,161 @@
+/* src/app/(dashboards)/admin/page.module.css */
+
+.dashboardContainer { 
+  padding-bottom: 40px; 
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loadingState {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.header { margin-bottom: 30px; }
+
+.title { 
+  font-size: 28px; 
+  color: var(--text-primary-brand); 
+  margin-bottom: 8px; 
+  font-weight: 700; 
+}
+
+.subtitle { 
+  color: var(--text-secondary); 
+  font-size: 16px; 
+}
+
+/* Metrics Grid */
+.metricsGrid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+  gap: 24px; 
+  margin-bottom: 40px; 
+}
+
+.metricCard { 
+  background-color: var(--bg-card); 
+  padding: 24px; 
+  border-radius: 12px; 
+  border: 1px solid var(--border-light); 
+  box-shadow: var(--card-shadow); 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+}
+
+.metricTitle { 
+  color: var(--text-secondary); 
+  font-size: 13px; 
+  font-weight: 700; 
+  text-transform: uppercase; 
+  margin-bottom: 12px; 
+  letter-spacing: 0.5px; 
+}
+
+.metricValue { 
+  font-size: 36px; 
+  font-weight: 800; 
+  color: var(--text-primary); 
+  margin-bottom: 4px; 
+}
+
+.metricValueSuccess {
+  color: #10b981; /* Retains explicit green for success impact */
+}
+
+.metricSubtitle { 
+  font-size: 13px; 
+  color: var(--text-secondary); 
+  font-weight: 500; 
+  opacity: 0.8;
+}
+
+/* Alert/Highlight Card styling */
+.highlightCard { 
+  border-top: 4px solid #ef4444; 
+}
+
+.highlightValue { 
+  color: #ef4444; 
+}
+
+/* Quick Actions Section */
+.quickActions { 
+  background-color: var(--bg-card); 
+  padding: 30px; 
+  border-radius: 12px; 
+  border: 1px solid var(--border-light); 
+  box-shadow: var(--card-shadow);
+}
+
+.sectionTitle { 
+  font-size: 20px; 
+  color: var(--text-primary-brand); 
+  margin: 0 0 20px 0; 
+}
+
+.actionGrid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  gap: 16px; 
+}
+
+.actionCard { 
+  display: flex; 
+  align-items: center; 
+  gap: 16px; 
+  padding: 20px; 
+  border: 1px solid var(--border-light); 
+  border-radius: 8px; 
+  text-decoration: none; 
+  color: inherit; 
+  transition: all 0.2s ease; 
+  background-color: var(--bg-main); 
+}
+
+.actionCard:hover { 
+  background-color: var(--bg-card); 
+  border-color: var(--text-primary-brand); 
+  transform: translateY(-2px); 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.actionIcon { 
+  font-size: 28px; 
+}
+
+.actionText h3 { 
+  margin: 0 0 4px 0; 
+  font-size: 16px; 
+  color: var(--text-primary); 
+}
+
+.actionText p { 
+  margin: 0; 
+  font-size: 13px; 
+  color: var(--text-secondary); 
+}
+
+/* ─── MOBILE (≤ 640px) ────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .dashboardContainer { padding: 0 16px 40px; }
+  .title { font-size: 22px; }
+  .subtitle { font-size: 14px; }
+  .metricsGrid { grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .metricCard { padding: 16px; }
+  .metricValue { font-size: 28px; }
+  .quickActions { padding: 20px 16px; }
+  .sectionTitle { font-size: 18px; }
+  .actionGrid { grid-template-columns: 1fr; gap: 12px; }
+  .actionCard { padding: 16px; }
+}
+
+/* ─── TABLET (641px – 1024px) ────────────────────────────────────── */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .dashboardContainer { padding: 0 24px 40px; }
+  .metricsGrid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .actionGrid { grid-template-columns: repeat(2, 1fr); }
+}

@@ -1,0 +1,82 @@
+
+/* =========================================
+   1. GLOBAL CSS VARIABLES (THE NEW ENGINE)
+   ========================================= */
+:root {
+  /* LIGHT MODE (DEFAULT) */
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-primary-brand: #003366; 
+  --text-secondary: #64748b;
+  --border-light: #e2e8f0;
+  --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --modal-overlay: rgba(0, 0, 0, 0.5);
+}
+
+body[data-theme="Dark"] {
+  /* TRUE DARK MODE */
+  --bg-main: #0f172a;
+  --bg-card: #1e293b;
+  --text-primary: #f8fafc;
+  --text-primary-brand: #f8fafc; 
+  --text-secondary: #94a3b8;
+  --border-light: #334155;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --modal-overlay: rgba(15, 23, 42, 0.85);
+}
+
+body[data-theme="High Contrast"] {
+  /* STRICT HIGH CONTRAST */
+  --bg-main: #000000;
+  --bg-card: #000000;
+  --text-primary: #ffffff;
+  --text-primary-brand: #ffff00; 
+  --text-secondary: #ffffff;
+  --border-light: #ffffff;
+  --card-shadow: none;
+  --modal-overlay: rgba(0, 0, 0, 0.95);
+}
+
+/* Apply the variables globally to the body */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* =========================================
+   2. TEXT SCALING (Browser Native Zoom)
+   ========================================= */
+body[data-text="Large"] { zoom: 1.1; }
+body[data-text="X-Large"] { zoom: 1.25; }
+
+@-moz-document url-prefix() {
+  body[data-text="Large"] main * { font-size: 110% !important; }
+  body[data-text="X-Large"] main * { font-size: 125% !important; }
+}
+
+/* =========================================
+   3. COLOR BLINDNESS
+   ========================================= */
+body[data-vision="Protanopia"] #vision-wrapper { filter: url('#protanopia-filter'); }
+body[data-vision="Deuteranopia"] #vision-wrapper { filter: url('#deuteranopia-filter'); }
+body[data-vision="Tritanopia"] #vision-wrapper { filter: url('#tritanopia-filter'); }
+
+/* =========================================
+   4. MODALS & PORTALS FIX
+   Catches components that escape the main DOM tree
+   ========================================= */
+body[data-theme="Dark"] div[role="dialog"],
+body[data-theme="Dark"] div[class*="modal" i] > div {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-light) !important;
+}
+
+body[data-theme="High Contrast"] div[role="dialog"],
+body[data-theme="High Contrast"] div[class*="modal" i] > div {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 2px solid var(--border-light) !important;
+}

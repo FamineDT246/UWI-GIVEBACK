@@ -1,0 +1,339 @@
+/* src/app/(dashboards)/student/events/page.module.css */
+
+.container { padding-bottom: 40px; }
+
+.loadingState {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-start; 
+  margin-bottom: 30px; 
+  flex-wrap: wrap; 
+  gap: 20px; 
+}
+
+.headerText { flex: 1; min-width: 300px; }
+.title { font-size: 28px; color: var(--text-primary-brand); margin-bottom: 8px; font-weight: 700; margin-top: 0; }
+.subtitle { color: var(--text-secondary); font-size: 16px; margin: 0; }
+
+/* Search Box Styling */
+.searchBox {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 8px 16px;
+  flex: 1;
+  max-width: 400px;
+  min-width: 250px;
+  box-shadow: var(--card-shadow);
+  transition: border-color 0.2s;
+}
+
+.searchBox:focus-within {
+  border-color: var(--text-primary-brand);
+}
+
+.searchIcon {
+  margin-right: 12px;
+  font-size: 16px;
+}
+
+.searchInput {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+/* Event Grid and Cards */
+.eventsGrid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+  gap: 24px; 
+}
+
+.eventCard {
+  background-color: var(--bg-card); 
+  border-radius: 12px; 
+  padding: 24px;
+  box-shadow: var(--card-shadow); 
+  border: 1px solid var(--border-light);
+  display: flex; 
+  flex-direction: column; 
+  cursor: pointer; 
+  transition: all 0.2s;
+}
+
+.eventCard:hover { 
+  transform: translateY(-4px); 
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05); 
+  border-color: var(--text-primary-brand); 
+}
+
+.registeredCard {
+  border-color: #10b981;
+  background-color: rgba(16, 185, 129, 0.02);
+}
+
+.cardHeader {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-start; 
+  margin-bottom: 12px;
+}
+
+.eventTitle { 
+  font-size: 20px; 
+  color: var(--text-primary); 
+  margin: 0; 
+  font-weight: 700;
+}
+
+.registeredBadge {
+  background-color: #10b981;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.orgName { font-size: 14px; color: var(--text-secondary); font-weight: 600; margin-bottom: 12px; }
+.eventMeta { color: var(--text-secondary); font-size: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+
+.recurringPill {
+  margin-top: 12px; 
+  background-color: var(--bg-main); 
+  color: var(--text-secondary);
+  padding: 6px 12px; 
+  border-radius: 6px; 
+  font-size: 13px; 
+  border: 1px solid var(--border-light);
+}
+
+/* Capacity Styling */
+.capacityAvailable { color: #10b981; font-weight: bold; font-size: 13px; }
+.capacityFull { color: #ef4444; font-weight: bold; font-size: 13px; }
+
+.emptyState { 
+  text-align: center; 
+  padding: 60px 20px; 
+  background-color: var(--bg-card); 
+  border-radius: 12px; 
+  border: 1px dashed var(--border-light); 
+  color: var(--text-secondary); 
+  grid-column: 1 / -1; 
+}
+.emptyState h2 { color: var(--text-primary); margin-top: 0; }
+
+/* Modal Styles */
+.modalOverlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--modal-overlay); display: flex; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); padding: 1rem; }
+.modalContent { background-color: var(--bg-card); border-radius: 12px; width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--card-shadow); border: 1px solid var(--border-light); }
+.modalHeader { padding: 24px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-main); }
+.modalTitleText { margin: 0; color: var(--text-primary-brand); font-size: 22px; }
+.closeBtn { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-secondary); transition: color 0.2s; }
+.closeBtn:hover { color: #ef4444; }
+
+.modalBody { padding: 24px; overflow-y: auto; flex-grow: 1; color: var(--text-primary); }
+.modalDesc { color: var(--text-secondary); font-size: 15px; line-height: 1.6; margin-top: 0; margin-bottom: 24px; }
+
+.modalInfoBox { background-color: var(--bg-main); padding: 16px; border-radius: 8px; border: 1px solid var(--border-light); margin-bottom: 24px; }
+.infoRow { margin-bottom: 8px; font-size: 14px; color: var(--text-primary); }
+.infoRow:last-child { margin-bottom: 0; }
+
+/* Success State Box */
+.successBox {
+  background-color: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+.successTitle { color: #10b981; margin-top: 0; margin-bottom: 16px; font-size: 20px; }
+.successLabel { color: var(--text-secondary); }
+.successText { color: var(--text-primary); font-weight: 500; margin-left: 8px; }
+
+.creditText { margin-top: 16px; padding-top: 16px; border-top: 1px dashed rgba(16, 185, 129, 0.2); }
+.creditHighlight { color: #10b981; font-size: 18px; font-weight: 800; margin-left: 8px; }
+
+/* Registration Box */
+.daySelectionBox {
+  background-color: var(--bg-main);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  margin-bottom: 24px;
+}
+.daySelectionTitle { display: block; margin-bottom: 8px; color: var(--text-primary); font-size: 16px; }
+.daySelectionSubtitle { font-size: 13px; color: var(--text-secondary); margin-top: 0; margin-bottom: 16px; }
+
+.daySelector { display: flex; gap: 8px; flex-wrap: wrap; }
+.dayBtn { padding: 10px 16px; border: 1px solid var(--border-light); border-radius: 20px; background-color: var(--bg-card); cursor: pointer; font-size: 14px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s; }
+.dayBtn:hover { border-color: var(--text-primary-brand); color: var(--text-primary-brand); }
+.dayActive { background-color: var(--text-primary-brand); color: var(--bg-main); border-color: var(--text-primary-brand); }
+.dayActive:hover { opacity: 0.9; }
+
+.projectedCreditBox {
+  text-align: center;
+  padding: 16px;
+  background-color: var(--bg-main);
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+}
+.projectedLabel { color: var(--text-secondary); font-size: 15px; }
+.projectedCreditHighlight { color: var(--text-primary-brand); font-size: 24px; font-weight: 800; display: block; margin-top: 4px; }
+
+/* Actions */
+.modalActions { padding: 20px 24px; border-top: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-main); flex-wrap: wrap; gap: 12px; }
+.actionGroupRight { display: flex; gap: 12px; margin-left: auto; }
+
+.cancelBtn { background-color: transparent; border: 1px solid var(--border-light); color: var(--text-primary); padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+.cancelBtn:hover { background-color: var(--bg-card); }
+
+.submitBtn { background-color: var(--text-primary-brand); color: var(--bg-main); border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+.submitBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.unregisterBtnModal { background-color: transparent; color: #ef4444; border: 1px solid #ef4444; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.unregisterBtnModal:hover:not(:disabled) { background-color: rgba(239, 68, 68, 0.1); }
+
+/* --- PAGINATION --- */
+.paginationContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  margin-top: 24px;
+}
+
+.pageInfo {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.paginationControls {
+  display: flex;
+  gap: 12px;
+}
+
+.pageBtn {
+  padding: 8px 16px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.pageBtn:hover:not(:disabled) {
+  background-color: var(--bg-main);
+  border-color: var(--text-primary-brand);
+  color: var(--text-primary-brand);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: var(--bg-main);
+  box-shadow: none;
+}
+
+/* --- MOBILE RESPONSIVENESS (Max Width 768px) --- */
+@media (max-width: 768px) {
+  /* 1. Reclaim screen real estate */
+  .container {
+    padding: 16px;
+  }
+
+  /* 2. Stack the Header and Search Bar */
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .headerText {
+    min-width: 100%;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  /* Make Search Bar span 100% of the screen */
+  .searchBox {
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+  }
+
+  /* 3. The Grid Collapse: Force 1 column on tiny phones */
+  .eventsGrid {
+    grid-template-columns: 1fr; /* Overrides the 320px minmax for safety */
+    gap: 16px;
+  }
+
+  .eventCard {
+    padding: 16px;
+  }
+
+  .eventTitle {
+    font-size: 18px;
+  }
+
+  /* 4. Modal Squeeze: Shrink padding to fit small screens */
+  .modalHeader, .modalBody {
+    padding: 16px;
+  }
+
+  .modalTitleText {
+    font-size: 20px;
+  }
+
+  /* 5. Day Selector Pills */
+  .dayBtn {
+    flex: 1 1 calc(33% - 8px); /* Make buttons evenly fill the row */
+    text-align: center;
+    padding: 12px 8px; /* Taller for thumbs */
+  }
+
+  /* 6. Giant Thumb Targets for Action Buttons */
+  .modalActions {
+    padding: 16px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .actionGroupRight {
+    width: 100%;
+    flex-direction: column-reverse; /* Primary action on top */
+    gap: 12px;
+    margin-left: 0;
+  }
+
+  .submitBtn, .cancelBtn, .unregisterBtnModal {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+  }
+}

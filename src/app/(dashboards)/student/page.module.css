@@ -1,0 +1,364 @@
+/* src/app/(dashboards)/student/page.module.css */
+
+.dashboardContainer {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loadingContainer {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary-brand);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+}
+
+.filterContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.yearSelect {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  cursor: pointer;
+  outline: none;
+}
+
+/* OVERALL PROGRESS BAR */
+.progressSection {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--card-shadow);
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.progressTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary-brand);
+  margin: 0;
+}
+
+.progressGoal {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.progressBarContainer {
+  height: 24px;
+  background-color: var(--border-light);
+  border-radius: 12px;
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progressApproved {
+  background-color: #10b981;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transition: width 0.3s ease;
+}
+
+.progressPending {
+  background-color: #f59e0b;
+  transition: width 0.3s ease;
+}
+
+.progressLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* METRICS GRID */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metricCard {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.metricTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.metricValue {
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+/* Metric Colors */
+.metricValueTotal {
+  color: var(--text-primary-brand);
+}
+
+.metricValueApproved {
+  color: #10b981;
+}
+
+.metricValuePending {
+  color: #f59e0b;
+}
+
+/* CHART & ANALYTICS */
+.analyticsSection {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--card-shadow);
+}
+
+.analyticsTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary-brand);
+  margin-bottom: 1.5rem;
+  margin-top: 0;
+}
+
+
+.chartContainer {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; 
+}
+
+
+.barChart {
+  display: flex;
+  height: 250px;
+  align-items: flex-end;
+  gap: 10px;
+  min-width: 600px; 
+}
+
+.chartXAxis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  min-width: 600px;
+}
+
+
+.monthLabel {
+  font-size: 0.75rem; 
+  font-weight: 500;
+  color: #64748b;
+  text-align: center;
+  white-space: nowrap; 
+}
+
+.chartLegend {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.legendBoxApproved {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background-color: #10b981;
+}
+
+.legendBoxPending {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background-color: #fcd34d;
+}
+
+.emptyChart {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 3rem;
+  font-style: italic;
+}
+
+.barChart {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 200px;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.barColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  max-width: 60px;
+  height: 100%;
+}
+
+.barValue {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.barWrapper {
+  width: 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: transparent;
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+}
+
+.barPending {
+  background-color: #fcd34d;
+  width: 100%;
+  transition: height 0.3s ease;
+  border-radius: 4px 4px 0 0;
+}
+
+.barApproved {
+  background-color: #10b981;
+  width: 100%;
+  transition: height 0.3s ease;
+}
+
+.barApprovedOnly {
+  border-radius: 4px 4px 0 0;
+}
+
+.chartXAxis {
+  display: flex;
+  justify-content: space-around;
+  gap: 12px;
+}
+
+.chartXAxisItem {
+  width: 100%;
+  max-width: 60px;
+  text-align: center;
+}
+
+.monthLabel {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* --- MOBILE RESPONSIVENESS (Max Width 768px) --- */
+@media (max-width: 768px) {
+  /* 1. Reclaim screen real estate */
+  .dashboardContainer {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  /* 2. Stack the Progress Header */
+  .progressHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .progressSection {
+    padding: 1.5rem;
+  }
+
+  /* 3. Slightly shrink massive numbers */
+  .metricValue {
+    font-size: 2.5rem;
+  }
+
+  /* 4. THE CHART FIX*/
+  .analyticsSection {
+    padding: 1.5rem 1rem;
+  }
+
+  .chartContainer {
+   
+    overflow-x: auto; 
+   
+    scrollbar-width: none; 
+  }
+  
+  .chartContainer::-webkit-scrollbar {
+    display: none; /* Hides scrollbar in WebKit/iOS */
+  }
+
+
+  .barChart, .chartXAxis {
+    min-width: 600px; 
+  }
+}

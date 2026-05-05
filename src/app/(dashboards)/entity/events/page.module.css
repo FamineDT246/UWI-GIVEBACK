@@ -1,0 +1,482 @@
+/* src/app/(dashboards)/entity/page.module.css */
+
+.dashboardContainer { padding-bottom: 40px; }
+
+.loadingState {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 16px; }
+.title { font-size: 28px; color: var(--text-primary-brand); margin-bottom: 8px; font-weight: 700; margin-top: 0; }
+.subtitle { color: var(--text-secondary); font-size: 16px; margin: 0; }
+
+.createBtn {
+  background-color: var(--text-primary-brand); 
+  color: var(--bg-main); 
+  border: none; padding: 12px 24px;
+  border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s; box-shadow: var(--card-shadow);
+}
+.createBtn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+.dashboardTabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--border-light);
+  padding-bottom: 12px;
+}
+
+.dashTab {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.dashTab:hover {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.activeDashTab {
+  background-color: var(--text-primary-brand);
+  color: var(--bg-main);
+}
+
+.activeDashTab:hover {
+  opacity: 0.9;
+}
+
+.eventsGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+
+.eventCard {
+  background-color: var(--bg-card); 
+  border-radius: 12px; padding: 24px;
+  box-shadow: var(--card-shadow); border: 1px solid var(--border-light);
+  display: flex; flex-direction: column; cursor: pointer; transition: all 0.2s;
+}
+.eventCard:hover { transform: translateY(-4px); border-color: var(--text-primary-brand); }
+
+.eventTitle { font-size: 20px; color: var(--text-primary); margin: 0 0 12px 0; }
+.eventMeta { color: var(--text-secondary); font-size: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+
+.recurrencePill {
+  margin-top: 8px; 
+  background-color: var(--bg-main); 
+  color: var(--text-secondary);
+  padding: 4px 8px; 
+  border-radius: 4px; 
+  font-size: 12px; 
+  display: inline-block;
+  border: 1px solid var(--border-light);
+}
+
+.emptyState { text-align: center; padding: 60px 20px; background-color: var(--bg-card); border-radius: 12px; border: 1px dashed var(--border-light); color: var(--text-secondary); grid-column: 1 / -1; }
+.emptyState h2 { color: var(--text-primary); margin-top: 0; }
+
+/* Modal & Tabs */
+.modalOverlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--modal-overlay); display: flex; justify-content: center; align-items: center;
+  z-index: 1000; backdrop-filter: blur(4px); padding: 20px;
+}
+
+.modalContent {
+  background-color: var(--bg-card); border-radius: 12px; width: 100%; max-width: 800px;
+  max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: var(--card-shadow); border: 1px solid var(--border-light);
+}
+
+.modalHeader { padding: 24px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-main); }
+.modalHeader h2 { margin: 0; color: var(--text-primary-brand); }
+.closeBtn { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-secondary); transition: color 0.2s; }
+.closeBtn:hover { color: #ef4444; }
+
+.modalBody { padding: 24px; overflow-y: auto; flex-grow: 1; }
+
+.tabs { display: flex; gap: 12px; margin-bottom: 24px; border-bottom: 2px solid var(--border-light); padding-bottom: 12px; }
+.tab { background: none; border: none; font-size: 16px; font-weight: 600; color: var(--text-secondary); cursor: pointer; padding: 8px 16px; border-radius: 6px; }
+.tab:hover { color: var(--text-primary); background-color: var(--bg-main); }
+.activeTab { background-color: var(--text-primary-brand); color: var(--bg-main); }
+
+/* Form Styles */
+.formFieldset { border: none; padding: 0; margin: 0; }
+.formGroup { margin-bottom: 16px; }
+.formGroup label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--text-primary); font-size: 14px; }
+
+.input { 
+  width: 100%; padding: 10px; 
+  border: 1px solid var(--border-light); 
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-radius: 6px; font-size: 14px; 
+  transition: border-color 0.2s;
+}
+.input:focus { outline: none; border-color: var(--text-primary-brand); }
+
+.row { display: flex; gap: 16px; flex-wrap: wrap; }
+.row .formGroup { flex: 1; min-width: 200px; }
+
+/* Multi-Day Logic Box */
+.multiDayBox {
+  background-color: var(--bg-main); 
+  padding: 16px; 
+  border-radius: 8px; 
+  margin-top: 16px; 
+  border: 1px solid var(--border-light);
+}
+.multiDayHeader { display: flex; align-items: center; gap: 8px; }
+.multiDayTitle { margin: 0; font-weight: bold; color: var(--text-primary); }
+.multiDaySubtitle { font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 8px; }
+
+.daySelector {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;
+}
+
+.dayBtn {
+  padding: 8px 14px; border: 1px solid var(--border-light); border-radius: 20px;
+  background-color: var(--bg-card); cursor: pointer; font-size: 13px; font-weight: 600;
+  color: var(--text-secondary); transition: all 0.2s;
+}
+
+.dayBtn:hover:not(:disabled) { border-color: var(--text-primary-brand); color: var(--text-primary-brand); }
+.dayActive { background-color: var(--text-primary-brand); color: var(--bg-main); border-color: var(--text-primary-brand); }
+.dayActive:hover:not(:disabled) { opacity: 0.9; }
+
+/* Volunteers Table */
+.volunteersTable { width: 100%; border-collapse: collapse; text-align: left; margin-top: 20px; }
+.volunteersTable th { padding: 12px; border-bottom: 2px solid var(--border-light); color: var(--text-secondary); font-size: 13px; text-transform: uppercase; }
+.volunteersTable td { padding: 12px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+
+.primaryTextName { font-weight: 600; color: var(--text-primary); }
+.secondaryText { font-size: 12px; color: var(--text-secondary); }
+
+.statusBadge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase; display: inline-block; }
+.status-pending { background-color: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+.status-approved { background-color: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+.status-rejected { background-color: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+.cancelledBadge { background-color: rgba(239, 68, 68, 0.15); color: #ef4444; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-bottom: 12px; display: inline-block; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+/* Roster Tools */
+.rosterTools {
+  display: flex; justify-content: space-between; align-items: center;
+  background-color: var(--bg-main); padding: 16px; border-radius: 8px;
+  margin-bottom: 20px; border: 1px solid var(--border-light); flex-wrap: wrap; gap: 16px;
+}
+
+.csvBtn {
+  background-color: transparent; color: #10b981; border: 1px solid #10b981;
+  padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer;
+  transition: 0.2s; display: flex; align-items: center; gap: 8px;
+}
+.csvBtn:hover { background-color: rgba(16, 185, 129, 0.1); }
+
+.broadcastBox { display: flex; gap: 12px; flex: 1; min-width: 280px; }
+.broadcastInput { flex: 1; padding: 8px 12px; border: 1px solid var(--border-light); background-color: var(--bg-card); color: var(--text-primary); border-radius: 6px; font-size: 14px; }
+.broadcastBtn { background-color: #ffcc00; color: #0f172a; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.broadcastBtn:hover:not(:disabled) { opacity: 0.9; }
+
+/* Modal Bottom Actions */
+.modalActions { padding: 20px 24px; border-top: 1px solid var(--border-light); display: flex; justify-content: flex-end; gap: 12px; background-color: var(--bg-main); flex-wrap: wrap; }
+.cancelBtn { background: transparent; border: 1px solid var(--border-light); color: var(--text-primary); padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+.cancelBtn:hover { background-color: var(--bg-card); }
+.submitBtn { background-color: var(--text-primary-brand); color: var(--bg-main); border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+.submitBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.deleteBtn { background-color: transparent; color: #ef4444; border: 1px solid #ef4444; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-right: auto; transition: 0.2s; }
+.deleteBtn:hover:not(:disabled) { background-color: rgba(239, 68, 68, 0.1); }
+
+.forceCancelBtn { background-color: #ef4444; color: #ffffff; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-right: auto; transition: 0.2s; }
+.forceCancelBtn:hover:not(:disabled) { opacity: 0.9; }
+
+/* Volunteer Remove Button */
+.removeVolBtn {
+  background-color: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+.removeVolBtn:hover { background-color: rgba(239, 68, 68, 0.1); }
+
+/* Removal Modal */
+.removalModalContent {
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.removalModalTitle { color: #ef4444; margin: 0; font-size: 20px; }
+
+.removalModalBody {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.removalSubtitle { margin: 0; color: var(--text-primary); font-size: 14px; line-height: 1.5; }
+
+.removalWarningBox {
+  background-color: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #d97706;
+}
+
+.removalLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.removalTextarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.removalTextarea:focus { outline: none; border-color: #ef4444; }
+
+.removalModalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-light);
+  background-color: var(--bg-main);
+}
+
+.removeConfirmBtn {
+  background-color: #ef4444;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.removeConfirmBtn:hover:not(:disabled) { opacity: 0.9; }
+.removeConfirmBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+  
+/* --- PAGINATION --- */
+.paginationContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-light);
+  border-top: none;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.pageInfo {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.paginationControls {
+  display: flex;
+  gap: 12px;
+}
+
+.pageBtn {
+  padding: 8px 16px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.pageBtn:hover:not(:disabled) {
+  background-color: var(--bg-main);
+  border-color: var(--text-primary-brand);
+  color: var(--text-primary-brand);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: var(--bg-main);
+  box-shadow: none;
+}
+
+/* Add to page.module.css */
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.searchContainer {
+  flex: 1;
+  max-width: 300px;
+}
+
+.dashboardSearchInput {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.dashboardSearchInput:focus {
+  border-color: var(--text-primary-brand);
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+}
+
+.removalModalContent { border-radius: 16px 16px 0 0; max-width: 100%; }
+.removalModalActions { flex-direction: column-reverse; }
+.removeConfirmBtn, .removalModalActions .cancelBtn { width: 100%; padding: 12px; text-align: center; }
+
+/* --- MOBILE RESPONSIVENESS (Max Width 768px) --- */
+@media (max-width: 768px) {
+  /* 1. Dashboard Container */
+  .dashboardContainer {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .createBtn {
+    width: 100%;
+    text-align: center;
+    padding: 14px;
+  }
+
+  /* 2. Make Dashboard Tabs Scrollable */
+  .dashboardTabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    border-bottom: none; /* Cleaner look on mobile */
+  }
+  
+  .dashboardTabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 3. The Grid Collapse */
+  .eventsGrid {
+    grid-template-columns: 1fr; /* Overrides the 320px minmax */
+    gap: 16px;
+  }
+
+  /* 4. The iOS Zoom Fix */
+  .input, .broadcastInput {
+    font-size: 16px; /* Prevents Safari from auto-zooming */
+    padding: 12px;
+  }
+
+  /* 5. Modal Squeeze */
+  .modalOverlay { padding: 12px; }
+  .modalHeader, .modalBody { padding: 16px; }
+  .row { flex-direction: column; gap: 16px; }
+  .row .formGroup { min-width: 100%; }
+
+  .dayBtn {
+    flex: 1 1 calc(33% - 8px); /* Stretches pills evenly */
+    text-align: center;
+    padding: 12px 8px;
+  }
+
+  /* 6. THE DATA TABLE FIX (Makes it swipeable horizontally) */
+  .volunteersTable {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap; /* Forces table to stay wide so user can swipe */
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+  }
+
+  /* 7. Stack Roster Tools */
+  .rosterTools {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .broadcastBox {
+    flex-direction: column;
+    min-width: 100%;
+  }
+
+  .csvBtn, .broadcastBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px;
+  }
+
+  /* 8. Giant Thumb Targets for Modal Actions */
+  .modalActions {
+    flex-direction: column-reverse; /* Orders them: Submit, Cancel, Delete/Cancel Event */
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .cancelBtn, .submitBtn, .deleteBtn, .forceCancelBtn {
+    width: 100%;
+    margin: 0; /* Erases the right-margin on the delete buttons */
+    text-align: center;
+    padding: 14px;
+  }
+
+  .headerControls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .searchContainer {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+

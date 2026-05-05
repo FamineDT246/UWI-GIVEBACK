@@ -1,0 +1,395 @@
+/* src/app/(dashboards)/student/submissions/page.module.css */
+
+.container {
+  padding-bottom: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loadingState {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.header {
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 28px;
+  color: var(--text-primary-brand);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+/* Modern Tab Navigation */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--border-light);
+  padding-bottom: 16px;
+}
+
+.tab {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.tab:hover {
+  background-color: var(--bg-card);
+  border-color: var(--border-light);
+  color: var(--text-primary);
+}
+
+.activeTab {
+  background-color: var(--text-primary-brand);
+  color: var(--bg-main);
+}
+
+.activeTab:hover {
+  background-color: var(--text-primary-brand);
+  color: var(--bg-main);
+  opacity: 0.9;
+}
+
+/* Submission List */
+.submissionCard {
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: transform 0.2s, border-color 0.2s;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.submissionCard:hover {
+  border-color: var(--text-primary-brand);
+}
+
+.details {
+  flex: 1;
+  min-width: 250px;
+}
+
+.eventTitle {
+  margin: 0 0 12px 0;
+  color: var(--text-primary);
+  font-size: 20px;
+}
+
+.metaData {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.totalCredit {
+  font-weight: bold;
+  color: var(--text-primary-brand);
+}
+
+.selectedDaysBadge {
+  background-color: var(--bg-main);
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 8px;
+  border: 1px solid var(--border-light);
+}
+
+/* Feedback Box Logic */
+.feedbackBox {
+  margin-top: 16px;
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 0 8px 8px 0;
+}
+
+.feedbackApproved {
+  background-color: rgba(16, 185, 129, 0.05);
+  border-left: 4px solid #10b981;
+}
+
+.feedbackRejected {
+  background-color: rgba(239, 68, 68, 0.05);
+  border-left: 4px solid #ef4444;
+}
+
+.feedbackLabelApproved { color: #10b981; }
+.feedbackLabelRejected { color: #ef4444; }
+.feedbackText { color: var(--text-primary); }
+
+
+/* Actions and Badges */
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  min-width: 180px;
+}
+
+.statusBadge {
+  text-align: center;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-pending { 
+  background-color: rgba(245, 158, 11, 0.15); 
+  color: #f59e0b; 
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+.status-approved { 
+  background-color: rgba(16, 185, 129, 0.15); 
+  color: #10b981; 
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.status-rejected { 
+  background-color: rgba(239, 68, 68, 0.15); 
+  color: #ef4444; 
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.updateBtn {
+  background-color: var(--text-primary-brand);
+  color: var(--bg-main); /* FIX: Swapped #ffffff for dynamic variable */
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.updateBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.unregisterBtn {
+  background-color: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.unregisterBtn:hover {
+  background-color: #fef2f2;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  border: 1px dashed var(--border-light);
+}
+
+.emptyState h3 {
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+/* Modal Styles */
+.modalOverlay { 
+  position: fixed; 
+  top: 0; left: 0; right: 0; bottom: 0; 
+  background-color: var(--modal-overlay); 
+  display: flex; justify-content: center; align-items: center; 
+  z-index: 1000; 
+  backdrop-filter: blur(4px);
+  padding: 1rem;
+}
+
+.modalContent { 
+  background-color: var(--bg-card); 
+  padding: 30px; 
+  border-radius: 12px; 
+  width: 100%; 
+  max-width: 500px; 
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-light);
+}
+
+.modalTitle {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--text-primary-brand);
+  font-size: 1.5rem;
+}
+
+.modalDesc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.modalDesc strong {
+  color: var(--text-primary);
+}
+
+.fileInput { 
+  margin: 20px 0; 
+  width: 100%; 
+  padding: 15px; 
+  border: 1px dashed var(--border-light); 
+  border-radius: 6px; 
+  background-color: var(--bg-main); 
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.modalActions { 
+  display: flex; 
+  justify-content: flex-end; 
+  gap: 12px; 
+  margin-top: 20px; 
+}
+
+.cancelBtn { 
+  background: transparent; 
+  border: 1px solid var(--border-light); 
+  color: var(--text-primary); 
+  font-weight: bold; 
+  cursor: pointer; 
+  padding: 10px 16px; 
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.cancelBtn:hover:not(:disabled) { 
+  background-color: var(--bg-main); 
+}
+
+.submitUploadBtn {
+  background-color: var(--text-primary-brand);
+  color: var(--bg-main); /* FIX: Swapped #ffffff for dynamic variable */
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submitUploadBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.submitUploadBtn:disabled, .cancelBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- MOBILE RESPONSIVENESS (Max Width 768px) --- */
+@media (max-width: 768px) {
+  /* 1. Reclaim screen real estate */
+  .container {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  /* 2. Make Tabs look like native mobile segmented controls */
+  .tabs {
+    gap: 8px;
+    border-bottom: none; /* Remove border to save space */
+  }
+
+  .tab {
+    flex: 1; /* Forces all tabs to be equal width */
+    text-align: center;
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  /* 3. The Grid Collapse: Stack card details and actions perfectly vertically */
+  .submissionCard {
+    padding: 16px;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .details, .actions {
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .eventTitle {
+    font-size: 18px;
+  }
+
+  /* 4. Neatly stack the Event Metadata instead of weird wrapping */
+  .metaData {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  /* 5. Giant Thumb Targets for mobile action buttons */
+  .statusBadge, .updateBtn, .unregisterBtn {
+    width: 100%;
+    text-align: center;
+    padding: 12px; /* Slightly taller for thumbs */
+  }
+
+  /* 6. Modal Squeeze: Shrink the huge padding so it fits on small phones */
+  .modalContent {
+    padding: 20px;
+    max-width: 95%; /* Prevent edge-touching */
+  }
+
+  /* Stack modal buttons for easy tapping */
+  .modalActions {
+    flex-direction: column-reverse; /* Puts Submit on top, Cancel on bottom */
+    gap: 12px;
+  }
+
+  .submitUploadBtn, .cancelBtn {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+  }
+}
