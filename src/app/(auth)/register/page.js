@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { supabase } from '../../../lib/supabase';
 import { useAsync } from '../../../hooks/useAsync';
 import { useRedirectIfAuthenticated } from '../../../hooks/useRedirectIfAuthenticated';
@@ -9,11 +10,9 @@ import styles from './page.module.css';
 
 export default function RegisterPage() {
   const router = useRouter();
-  
-  //  Bouncer Hook 
   const { checkingAuth } = useRedirectIfAuthenticated();
-  
   const { loading, execute } = useAsync();
+  
   const [role, setRole] = useState('student');
   const [notification, setNotification] = useState({ text: '', type: '' });
 
@@ -38,14 +37,18 @@ export default function RegisterPage() {
   const handleRegister = async (e) => {
     e.preventDefault();
     setNotification({ text: '', type: '' });
+    
     try {
       await execute(async () => {
+        // Step 1: Create the secure authentication identity
         const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
         if (authError) throw authError;
 
         const userId = authData.user?.id;
         if (!userId) throw new Error("Registration failed. Could not retrieve user ID.");
 
+        // Step 2: Establish the core user profile tied to the Auth ID. 
+        // This governs dashboard access and platform-wide permissions.
         const { error: profileError } = await supabase.from('profiles').upsert({
           id: userId,
           role,
@@ -54,8 +57,11 @@ export default function RegisterPage() {
           phone_number: phoneNumber || null,
           account_status: 'pending'
         });
+        
         if (profileError) throw profileError;
 
+        // Step 3: If registering as an organization, populate the entity-specific details 
+        // required for event creation and public display.
         if (role === 'entity') {
           const { error: entityError } = await supabase.from('entities').upsert({
             id: userId,
@@ -73,15 +79,20 @@ export default function RegisterPage() {
         setTimeout(() => router.push('/login'), 3000);
       });
     } catch (error) {
-      setNotification({ text: error.message, type: 'error' });
+      if (error instanceof Error) {
+        setNotification({ text: error.message, type: 'error' });
+      } else {
+        setNotification({ text: "An unexpected error occurred during registration.", type: 'error' });
+      }
     }
   };
 
-  // If the bouncer is checking their ID, hold at the door
   if (checkingAuth) return null;
 
   return (
     <div className={styles.pageContainer}>
+      <div className={styles.backgroundOverlay} />
+      
       <div className={styles.registerCard}>
         <div className={styles.header}>
           <h1 className={styles.title}>Join UWI Give Back</h1>
@@ -89,8 +100,20 @@ export default function RegisterPage() {
         </div>
 
         <div className={styles.roleToggle}>
-          <button className={`${styles.toggleBtn} ${role === 'student' ? styles.active : ''}`} onClick={() => setRole('student')} type="button">I am a Student</button>
-          <button className={`${styles.toggleBtn} ${role === 'entity' ? styles.active : ''}`} onClick={() => setRole('entity')} type="button">I am an Organization</button>
+          <button 
+            className={`${styles.toggleBtn} ${role === 'student' ? styles.active : ''}`} 
+            onClick={() => setRole('student')} 
+            type="button"
+          >
+            I am a Student
+          </button>
+          <button 
+            className={`${styles.toggleBtn} ${role === 'entity' ? styles.active : ''}`} 
+            onClick={() => setRole('entity')} 
+            type="button"
+          >
+            I am an Organization
+          </button>
         </div>
 
         {notification.text && (
@@ -102,24 +125,48 @@ export default function RegisterPage() {
         <form onSubmit={handleRegister} className={styles.form}>
           {role === 'student' ? (
             <>
-              <div className={styles.inputGroup}><label>Full Name</label><input type="text" required value={fullName} onChange={(e) => setFullName(e.target.value)} className={styles.input} /></div>
-              <div className={styles.inputGroup}><label>UWI Student ID</label><input type="text" required value={studentId} onChange={(e) => setStudentId(e.target.value)} className={styles.input} /></div>
+              <div className={styles.inputGroup}>
+                <label>Full Name</label>
+                <input type="text" required value={fullName} onChange={(e) => setFullName(e.target.value)} className={styles.input} />
+              </div>
+              <div className={styles.inputGroup}>
+                <label>UWI Student ID</label>
+                <input type="text" required value={studentId} onChange={(e) => setStudentId(e.target.value)} className={styles.input} />
+              </div>
             </>
           ) : (
             <>
-              <div className={styles.inputGroup}><label>Organization Name</label><input type="text" required value={orgName} onChange={(e) => setOrgName(e.target.value)} className={styles.input} /></div>
-              <div className={styles.inputGroup}><label>Contact Person (Full Name)</label><input type="text" required value={contactPerson} onChange={(e) => setContactPerson(e.target.value)} className={styles.input} /></div>
-              <div className={styles.inputGroup}><label>Public Contact Email (Optional)</label><input type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} placeholder="e.g. info@org.com" className={styles.input} /></div>
-              <div className={styles.inputGroup}><label>Website URL (Optional)</label><input type="url" value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="https://www.example.com" className={styles.input} /></div>
+              <div className={styles.inputGroup}>
+                <label>Organization Name</label>
+                <input type="text" required value={orgName} onChange={(e) => setOrgName(e.target.value)} className={styles.input} />
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Contact Person (Full Name)</label>
+                <input type="text" required value={contactPerson} onChange={(e) => setContactPerson(e.target.value)} className={styles.input} />
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Public Contact Email (Optional)</label>
+                <input type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} placeholder="e.g. info@org.com" className={styles.input} />
+              </div>
+              <div className={styles.inputGroup}>
+                <label>Website URL (Optional)</label>
+                <input type="url" value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="https://www.example.com" className={styles.input} />
+              </div>
             </>
           )}
 
-          <div className={styles.inputGroup}><label>Official Login Email</label><input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={styles.input} /></div>
+          <div className={styles.inputGroup}>
+            <label>Official Login Email</label>
+            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={styles.input} />
+          </div>
           <div className={styles.inputGroup}>
             <label>Phone Number (Optional)</label>
             <input type="tel" value={phoneNumber} onChange={handlePhoneChange} placeholder="(XXX) XXX-XXXX" maxLength="14" className={styles.input} />
           </div>
-          <div className={styles.inputGroup}><label>Password</label><input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} minLength={8} className={styles.input} /></div>
+          <div className={styles.inputGroup}>
+            <label>Password</label>
+            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} minLength={8} className={styles.input} />
+          </div>
 
           <button type="submit" disabled={loading} className={styles.submitBtn}>
             {loading ? 'Creating Account...' : 'Sign Up'}
@@ -127,7 +174,7 @@ export default function RegisterPage() {
         </form>
 
         <div className={styles.footer}>
-          Already have an account? <a href="/login" className={styles.footerLink}>Log In Here</a>
+          Already have an account? <Link href="/login" className={styles.footerLink}>Log In Here</Link>
         </div>
       </div>
     </div>

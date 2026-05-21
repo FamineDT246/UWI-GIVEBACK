@@ -1,66 +1,109 @@
-.container {
+.main {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #f4f7f6;
+  padding: 24px;
+  position: relative;
+  background-color: var(--text-primary-brand);
+  background-image: url('/cave-hill-campus.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 51, 102, 0.85), 
+    rgba(15, 23, 42, 0.90)
+  );
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
   text-align: center;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative; 
+  z-index: 1;
 }
 
 .title {
-  font-size: 3.5rem;
-  color: #003366;
-  margin-bottom: 1rem;
+  font-size: clamp(3rem, 5vw, 4.5rem);
   font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: #ffffff;
+  margin: 0;
+}
+
+.highlight {
+  color: #fbbf24;
 }
 
 .subtitle {
-  font-size: 1.25rem;
-  color: #555;
-  max-width: 600px;
-  margin-bottom: 2.5rem;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  color: #cbd5e1;
+  max-width: 42rem;
+  margin: 0 auto;
   line-height: 1.6;
 }
 
 .buttonGroup {
   display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  gap: 16px;
+  padding-top: 16px;
 }
 
-.primaryBtn {
-  padding: 14px 28px;
-  background-color: #ffcc00;
-  color: #003366;
+.primaryButton {
+  width: 100%;
+  padding: 16px 32px;
+  background-color: #fbbf24;
+  color: #0f172a;
+  font-weight: 700;
+  border-radius: 8px;
   text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  font-size: 1.125rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-.primaryBtn:hover {
+.primaryButton:hover {
+  background-color: #f59e0b;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-.secondaryBtn {
-  padding: 14px 28px;
+.secondaryButton {
+  width: 100%;
+  padding: 16px 32px;
   background-color: transparent;
-  color: #003366;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
   text-decoration: none;
-  border: 2px solid #003366;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: all 0.2s;
+  border: 2px solid #cbd5e1;
+  transition: all 0.2s ease;
+  font-size: 1.125rem;
 }
 
-.secondaryBtn:hover {
-  background-color: #003366;
-  color: #ffffff;
+.secondaryButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+}
+
+@media (min-width: 640px) {
+  .buttonGroup { flex-direction: row; }
+  .primaryButton, .secondaryButton { width: auto; }
 }

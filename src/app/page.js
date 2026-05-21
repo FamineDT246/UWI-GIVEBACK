@@ -1,22 +1,27 @@
 import Link from 'next/link';
 import styles from './page.module.css';
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <main className={styles.container}>
-      <h1 className={styles.title}>UWI Give Back</h1>
-      <p className={styles.subtitle}>
-        Connecting the UWI Cave Hill community with meaningful volunteer opportunities. 
-        Track your hours, build your profile, and make a difference across Barbados.
-      </p>
-      
-      <div className={styles.buttonGroup}>
-        <Link href="/login" className={styles.primaryBtn}>
-          Log In to Portal
-        </Link>
-        <Link href="/register" className={styles.secondaryBtn}>
-          Create an Account
-        </Link>
+    <main className={styles.main}>
+      <div className={styles.heroOverlay} />
+      <div className={styles.container}>
+        <h1 className={styles.title}>
+          Empowering the <span className={styles.highlight}>UWI</span> Community
+        </h1>
+        
+        <p className={styles.subtitle}>
+          The UWI Give Back platform connects students with meaningful volunteer opportunities. Join us in making a difference.
+        </p>
+        
+        <div className={styles.buttonGroup}>
+          <Link href="/register" className={styles.primaryButton}>
+            Get Started
+          </Link>
+          <Link href="/login" className={styles.secondaryButton}>
+            Sign In
+          </Link>
+        </div>
       </div>
     </main>
   );

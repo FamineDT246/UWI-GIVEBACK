@@ -1,19 +1,24 @@
 "use client";
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { supabase } from '../../../lib/supabase';
 import { useAsync } from '../../../hooks/useAsync';
 import { useRedirectIfAuthenticated } from '../../../hooks/useRedirectIfAuthenticated';
 import styles from './page.module.css';
 
-// Component that actually uses useSearchParams
+// Extracted to a separate component to allow Suspense boundary for useSearchParams
 function LoginErrorHandler() {
   const searchParams = useSearchParams();
   const middlewareError = searchParams.get('error');
 
   if (!middlewareError) return null;
-  return <div className={styles.errorBanner}>{decodeURIComponent(middlewareError)}</div>;
+  return (
+    <div className={`${styles.alert} ${styles.alertError}`}>
+      {decodeURIComponent(middlewareError)}
+    </div>
+  );
 }
 
 export default function LoginPage() {
@@ -28,17 +33,22 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+    
     try {
       await execute(async () => {
+        // Step 1: Authenticate credentials
         const { data: authData, error: authError } = await supabase.auth.signInWithPassword({ email, password });
         if (authError) throw authError;
 
         const userId = authData.user.id;
+        
+        // Step 2: Fetch the user's platform profile to determine routing and access
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('role, is_admin, account_status')
           .eq('id', userId)
           .maybeSingle();
+        
         if (profileError) throw profileError;
         if (!profileData) {
           await supabase.auth.signOut();
@@ -48,6 +58,7 @@ export default function LoginPage() {
         const { role: userRole, is_admin: isAdmin } = profileData;
         let currentStatus = profileData.account_status;
 
+        // Step 3: Check specific entity status if applicable
         if (userRole === 'entity') {
           const { data: entityData } = await supabase
             .from('entities')
@@ -57,6 +68,7 @@ export default function LoginPage() {
           if (entityData) currentStatus = entityData.account_status;
         }
 
+        // Step 4: Enforce administrative holds (Pending approval or Banned)
         if (!isAdmin) {
           if (currentStatus === 'pending') {
             await supabase.auth.signOut();
@@ -72,6 +84,7 @@ export default function LoginPage() {
           }
         }
 
+        // Step 5: Route to appropriate dashboard
         if (isAdmin || userRole === 'staff') router.push('/admin');
         else if (userRole === 'student') router.push('/student');
         else if (userRole === 'entity') router.push('/entity');
@@ -81,7 +94,11 @@ export default function LoginPage() {
         }
       });
     } catch (error) {
-      setErrorMsg(error.message);
+      if (error instanceof Error) {
+        setErrorMsg(error.message);
+      } else {
+        setErrorMsg("An unexpected error occurred.");
+      }
     }
   };
 
@@ -89,35 +106,63 @@ export default function LoginPage() {
 
   return (
     <div className={styles.pageContainer}>
+      <div className={styles.backgroundOverlay} />
+      
       <div className={styles.loginCard}>
         <div className={styles.header}>
           <h1 className={styles.title}>UWI Give Back</h1>
           <p className={styles.subtitle}>Sign in to continue</p>
         </div>
 
-        {/* Error from middleware is handled inside Suspense */}
-        <Suspense fallback={<div className={styles.loadingState}>Loading...</div>}>
+        <Suspense fallback={<div className={styles.loadingText}>Loading...</div>}>
           <LoginErrorHandler />
         </Suspense>
 
-        {errorMsg && <div className={styles.errorBanner}>{errorMsg}</div>}
+        {errorMsg && (
+          <div className={`${styles.alert} ${styles.alertError}`}>
+            {errorMsg}
+          </div>
+        )}
 
         <form onSubmit={handleLogin} className={styles.form}>
           <div className={styles.inputGroup}>
             <label>Email Address</label>
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={styles.input} />
+            <input 
+              type="email" 
+              required 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              className={styles.input} 
+            />
           </div>
+          
           <div className={styles.inputGroup}>
-            <label>Password</label>
-            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className={styles.input} />
+            <div className={styles.passwordHeader}>
+              <label>Password</label>
+              <Link href="/forgot-password" className={styles.forgotLink}>
+                Forgot password?
+              </Link>
+            </div>
+            <input 
+              type="password" 
+              required 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              className={styles.input} 
+            />
           </div>
-          <button type="submit" disabled={loading} className={styles.submitBtn}>
+          
+          <button 
+            type="submit" 
+            disabled={loading} 
+            className={styles.submitBtn}
+          >
             {loading ? 'Authenticating...' : 'Sign In'}
           </button>
         </form>
 
         <div className={styles.footer}>
-          Don&apos;t have an account? <a href="/register" className={styles.footerLink}>Register Here</a>
+          Don&apos;t have an account? <Link href="/register" className={styles.footerLink}>Register Here</Link>
         </div>
       </div>
     </div>

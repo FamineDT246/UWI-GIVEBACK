@@ -3,18 +3,38 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-main);
-  padding: 20px;
+  padding: 24px;
+  position: relative;
+  background-color: #003366;
+  background-image: url('/cave-hill-campus.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.backgroundOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 51, 102, 0.85), 
+    rgba(15, 23, 42, 0.90)
+  );
+  z-index: 0;
 }
 
 .registerCard {
+  position: relative;
+  z-index: 1;
   padding: 40px;
-  background-color: var(--bg-card);
+  background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: var(--card-shadow);
-  border: 1px solid var(--border-light);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
   width: 100%;
-  max-width: 500px;
+  max-width: 550px;
 }
 
 .header {
@@ -23,44 +43,46 @@
 }
 
 .title {
-  color: var(--text-primary-brand);
+  color: #003366;
   margin: 0 0 10px 0;
   font-weight: 800;
+  font-size: 2rem;
 }
 
 .subtitle {
-  color: var(--text-secondary);
+  color: #475569;
   margin: 0;
 }
 
 /* The Role Toggle Buttons */
 .roleToggle {
   display: flex;
-  margin-bottom: 20px;
-  border-radius: 6px;
+  margin-bottom: 24px;
+  border-radius: 8px;
   overflow: hidden;
-  border: 1px solid var(--text-primary-brand);
-  background-color: var(--bg-main);
+  border: 1px solid #003366;
+  background-color: #f8fafc;
 }
 
 .toggleBtn {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   border: none;
   background-color: transparent;
-  color: var(--text-primary);
+  color: #475569;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s;
+  font-size: 0.95rem;
 }
 
 .toggleBtn:first-child {
-  border-right: 1px solid var(--text-primary-brand);
+  border-right: 1px solid #003366;
 }
 
 .toggleBtn.active {
-  background-color: var(--text-primary-brand);
-  color: var(--bg-main); /* Flips properly in Dark/High Contrast */
+  background-color: #003366;
+  color: #ffffff;
 }
 
 /* Alerts */
@@ -97,37 +119,39 @@
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 6px;
-  color: var(--text-primary);
+  color: #0f172a;
 }
 
 .input {
   width: 100%;
   padding: 12px;
   border-radius: 6px;
-  border: 1px solid var(--border-light);
-  background-color: var(--bg-main);
-  color: var(--text-primary);
+  border: 1px solid #cbd5e1;
+  background-color: #f8fafc;
+  color: #0f172a;
   box-sizing: border-box;
   font-size: 15px;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--text-primary-brand);
+  border-color: #fbbf24;
+  box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2);
 }
 
 .submitBtn {
   margin-top: 10px;
-  padding: 12px;
-  background-color: var(--text-primary-brand);
-  color: var(--bg-main);
+  padding: 14px;
+  background-color: #fbbf24;
+  color: #0f172a;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
   font-size: 16px;
-  transition: opacity 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .submitBtn:disabled {
@@ -136,18 +160,19 @@
 }
 
 .submitBtn:hover:not(:disabled) {
-  opacity: 0.9;
+  background-color: #f59e0b;
+  transform: translateY(-2px);
 }
 
 .footer {
   margin-top: 24px;
   text-align: center;
   font-size: 14px;
-  color: var(--text-secondary);
+  color: #475569;
 }
 
 .footerLink {
-  color: var(--text-primary-brand);
+  color: #003366;
   font-weight: bold;
   text-decoration: none;
   transition: opacity 0.2s;
@@ -156,4 +181,14 @@
 .footerLink:hover {
   opacity: 0.8;
   text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .registerCard {
+    padding: 24px;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
 }

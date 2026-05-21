@@ -68,7 +68,6 @@ jest.config.mjs
 jest.setup.js
 jsconfig.json
 next.config.mjs
-org-management-error-screenshot.png
 package.json
 postcss.config.mjs
 public/file.svg
@@ -140,6 +139,7 @@ src/utils/hoursCalculator.js
 src/utils/sanitizeUrl.js
 src/utils/validateHours.js
 types/supabase.ts
+UWI-GIVEBACK.zip
 </directory_structure>
 
 <files>
@@ -220,7 +220,6 @@ supabase.from.mockReturnValue({ update: mockUpdate });
 
 const simulateAdminStatusChange = async (userId, newStatus) => {
   try {
-    // NEW: Guard against malformed inputs before hitting the DB
     if (typeof userId !== 'string' || !userId) {
       throw new Error('Invalid User ID provided');
     }
@@ -269,7 +268,6 @@ describe('Integration Test: Admin User Management', () => {
     expect(response.error).toBe('Failed to update record');
   });
 
-  // NEW TEST CASE
   test('TC-ADM-004: Prevent action if User ID is missing or null', async () => {
     const response = await simulateAdminStatusChange(null, 'approved');
     expect(response.success).toBe(false);
@@ -1170,7 +1168,7 @@ import { supabase } from '../src/lib/supabase';
 // Simulate frontend Signup function
 const simulateSignUp = async (email, password, role) => {
   try {
-    // NEW: Guard against missing data
+    // Guard against missing data
     if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
       throw new Error('Email and password are required');
     }
@@ -1190,7 +1188,7 @@ const simulateSignUp = async (email, password, role) => {
 // Simulate frontend Login function
 const simulateLogin = async (email, password) => {
   try {
-    // NEW: Guard against missing data
+    // Guard against missing data
     if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
       throw new Error('Email and password are required');
     }
@@ -1271,7 +1269,7 @@ describe('Integration Test: Authentication Flow', () => {
 
 const { Builder, By, until } = require('selenium-webdriver');
 
-jest.setTimeout(60000); // Bumped slightly to accommodate 6 sequential tests
+jest.setTimeout(60000); 
 
 describe('Alpha Testing (E2E): Registration Flow for Core Users', () => {
   let driver;
@@ -1370,13 +1368,13 @@ describe('Event Capacity Logic - Unit Testing', () => {
       expect(result.status).toBe('Error');
     });
 
-    // NEW: Testing a negative registered count
+    // Testing a negative registered count
     test('Class 4: Invalid Negative Registered Count', () => {
       const result = calculateEventCapacity(10, -2);
       expect(result.status).toBe('Error');
     });
 
-    // NEW: Testing malformed inputs
+    // Testing malformed inputs
     test('Class 5: Invalid Data Type (String)', () => {
       const result = calculateEventCapacity("ten", 2);
       expect(result.status).toBe('Error');
@@ -1424,12 +1422,12 @@ import { supabase } from '../src/lib/supabase';
 // 2. We simulate the exact function that runs when an Organization clicks "Submit"
 const simulateCreateEvent = async (eventData) => {
   try {
-    // NEW: Guard against malformed payloads (Crash Prevention)
+    // Guard against malformed payloads (Crash Prevention)
     if (!eventData || typeof eventData !== 'object') {
       throw new Error('Invalid event payload');
     }
 
-    // NEW: Guard against missing critical data
+    // Guard against missing critical data
     if (!eventData.entity_id || !eventData.title) {
       throw new Error('Missing required event fields');
     }
@@ -1484,7 +1482,7 @@ describe('Integration Test: Event Creation Flow', () => {
     expect(response.error).toBe('Row Level Security violation');
   });
 
-  // NEW TEST CASE
+
   test('TC-CEV-003: Prevent query if payload is null', async () => {
     const response = await simulateCreateEvent(null);
 
@@ -1492,7 +1490,7 @@ describe('Integration Test: Event Creation Flow', () => {
     expect(response.error).toBe('Invalid event payload');
   });
 
-  // NEW TEST CASE
+
   test('TC-CEV-004: Prevent query if required fields are missing', async () => {
     const incompletePayload = { start_date: '2026-04-10', hours: 4 };
     const response = await simulateCreateEvent(incompletePayload);
@@ -1547,14 +1545,14 @@ describe('Event Date Validation', () => {
       expect(result.error).toBe('Missing dates');
     });
 
-    // NEW: What if the end date is the one missing?
+    // What if the end date is the one missing?
     test('Class 4: Missing inputs (End Date)', () => {
       const result = validateEventDates(tomorrowStr, '');
       expect(result.isValid).toBe(false);
       expect(result.error).toBe('Missing dates');
     });
 
-    // NEW: What if the input isn't a valid date string?
+    // What if the input isn't a valid date string?
     test('Class 5: Invalid Data Type / Malformed String', () => {
       const result = validateEventDates('not-a-date', tomorrowStr);
       expect(result.isValid).toBe(false);
@@ -1691,7 +1689,7 @@ supabase.from.mockReturnValue({ update: mockUpdate });
 // Simulating the frontend function when an Organization clicks "Approve"
 const simulateApproveHours = async (registrationId, newStatus) => {
   try {
-    // NEW: Guard against malformed inputs before hitting the DB
+    // Guard against malformed inputs before hitting the DB
     if (typeof registrationId !== 'string' || !registrationId) {
       throw new Error('Invalid Registration ID provided');
     }
@@ -1743,7 +1741,7 @@ describe('Integration Test: Organization Hours Approval Flow', () => {
     expect(response.error).toBe('Row Level Security policy violation');
   });
 
-  // NEW TEST CASE
+
   test('TC-HAP-003: Prevent query if Registration ID is missing', async () => {
     // Act
     const response = await simulateApproveHours(null, 'approved');
@@ -1777,13 +1775,13 @@ describe('Projected Hours Calculation', () => {
       expect(result).toBe(0);
     });
 
-    // NEW: What if a string is passed instead of a number?
+    // What if a string is passed instead of a number?
     test('Class 4: Invalid Data Type for Hours (String)', () => {
       const result = calculateProjectedHours("four", ['Monday'], true);
       expect(result).toBe(0);
     });
 
-    // NEW: What if days is a string instead of an array?
+    // What if days is a string instead of an array?
     test('Class 5: Invalid Data Type for Days Array (String)', () => {
       const result = calculateProjectedHours(4, "Monday", true);
       expect(result).toBe(0);
@@ -1828,7 +1826,7 @@ supabase.from.mockReturnValue({ update: mockUpdate, delete: mockDelete });
 // Simulate Entity rejecting or Admin force-approving
 const simulateUpdateRegistrationStatus = async (regId, newStatus) => {
   try {
-    // NEW: Guard against malformed inputs
+    // Guard against malformed inputs
     if (typeof regId !== 'string' || !regId) {
       throw new Error('Invalid Registration ID provided');
     }
@@ -1844,7 +1842,7 @@ const simulateUpdateRegistrationStatus = async (regId, newStatus) => {
 // Simulate Admin purging a fake registration
 const simulatePurgeRegistration = async (regId) => {
   try {
-    // NEW: Guard against malformed inputs
+    // Guard against malformed inputs
     if (typeof regId !== 'string' || !regId) {
       throw new Error('Invalid Registration ID provided');
     }
@@ -1890,7 +1888,7 @@ describe('Integration Test: Registration Rejections and Admin Actions', () => {
     expect(mockEq).toHaveBeenCalledWith('id', 'reg-malicious');
   });
 
-  // NEW TEST CASE
+  
   test('TC-RGM-004: Action fails due to database error', async () => {
     mockEq.mockResolvedValueOnce({ 
       data: null, 
@@ -1902,7 +1900,7 @@ describe('Integration Test: Registration Rejections and Admin Actions', () => {
     expect(response.error).toBe('Database transaction failed');
   });
 
-  // NEW TEST CASE
+ 
   test('TC-RGM-005: Prevent query if Registration ID is missing', async () => {
     const response = await simulatePurgeRegistration(null);
 
@@ -1927,12 +1925,12 @@ import { supabase } from '../src/lib/supabase';
 // Simulating the exact frontend function that fires when a student clicks "Register"
 const simulateStudentRegistration = async (registrationPayload) => {
   try {
-    // NEW: Guard against malformed payloads (Crash Prevention)
+    // Guard against malformed payloads (Crash Prevention)
     if (!registrationPayload || typeof registrationPayload !== 'object') {
       throw new Error('Invalid registration payload');
     }
 
-    // NEW: Guard against missing critical relational data
+    // Guard against missing critical relational data
     if (!registrationPayload.student_id || !registrationPayload.event_id) {
       throw new Error('Missing required student or event IDs');
     }
@@ -1980,7 +1978,7 @@ describe('Integration Test: Student Registration Flow', () => {
     expect(response.error).toBe('Foreign key constraint violated');
   });
 
-  // NEW TEST CASE
+  
   test('TC-SRG-003: Prevent query if payload is null', async () => {
     const response = await simulateStudentRegistration(null);
 
@@ -1988,7 +1986,7 @@ describe('Integration Test: Student Registration Flow', () => {
     expect(response.error).toBe('Invalid registration payload');
   });
 
-  // NEW TEST CASE
+  
   test('TC-SRG-004: Prevent query if required IDs are missing', async () => {
     const incompletePayload = { status: 'pending', expected_hours: 4 };
     const response = await simulateStudentRegistration(incompletePayload);
@@ -2011,7 +2009,7 @@ describe('Daily Hours Validation - Unit Testing', () => {
       expect(result.error).toBeNull();
     });
 
-    // NEW: Testing fractional hours (very common in timesheets)
+    // Testing fractional hours (very common in timesheets)
     test('Class 2: Valid Normal Hours (Decimal)', () => {
       const result = validateDailyHours(4.5);
       expect(result.isValid).toBe(true);
@@ -2024,7 +2022,7 @@ describe('Daily Hours Validation - Unit Testing', () => {
       expect(result.error).toBe('Input must be a valid number.');
     });
 
-    // NEW: Testing Null/Undefined inputs
+    // Testing Null/Undefined inputs
     test('Class 4: Invalid Data Type (Null)', () => {
       const result = validateDailyHours(null);
       expect(result.isValid).toBe(false);
@@ -2037,7 +2035,7 @@ describe('Daily Hours Validation - Unit Testing', () => {
       expect(result.error).toBe('Cannot log more than 24 hours in a single day.');
     });
 
-    // NEW: Testing extreme low (negative) hours
+    // Testing extreme low (negative) hours
     test('Class 6: Invalid Negative Hours', () => {
       const result = validateDailyHours(-5);
       expect(result.isValid).toBe(false);
@@ -2256,42 +2254,10 @@ export default config;
 </file>
 
 <file path="README.md">
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+To run this project, extract the zip, open the folder in terminal, run npm install, and then run npm run dev.
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000)utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 </file>
 
 <file path="src/app/(auth)/login/page.js">
@@ -2556,7 +2522,7 @@ import styles from './page.module.css';
 export default function RegisterPage() {
   const router = useRouter();
   
-  // 🚨 The Bouncer Hook 🚨
+  //  Bouncer Hook 
   const { checkingAuth } = useRedirectIfAuthenticated();
   
   const { loading, execute } = useAsync();
@@ -3750,7 +3716,7 @@ export default function AdminDashboard() {
     totalEntities: 0,
     totalActiveEvents: 0,
     totalApprovedHours: 0,
-    pendingSubmissions: 0   // Changed from pendingAccounts
+    pendingSubmissions: 0   
   });
 
   useEffect(() => {
@@ -3825,7 +3791,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Quick Actions remain unchanged */}
+      {/* Quick Actions */}
       <div className={styles.quickActions}>
         <h2 className={styles.sectionTitle}>Administration Modules</h2>
         <div className={styles.actionGrid}>
@@ -4523,10 +4489,8 @@ export default function UserManagementPage() {
         <button onClick={() => handleStatusChange(id, type, 'approved')} disabled={processingId === id} className={`${commonStyles.btn} ${commonStyles.approveBtn}`}>✓ Approve</button>
       )}
       {status !== 'banned' ? (
-        // Reused your common rejectBtn styling for banning
         <button onClick={() => handleStatusChange(id, type, 'banned')} disabled={processingId === id} className={`${commonStyles.btn} ${commonStyles.rejectBtn}`}>✗ Ban</button>
       ) : (
-        // We can keep restore localized, or combine btn with a local style
         <button onClick={() => handleStatusChange(id, type, 'pending')} disabled={processingId === id} className={`${commonStyles.btn} ${styles.restoreBtn}`}>↺ Restore</button>
       )}
     </div>
@@ -6910,7 +6874,7 @@ export default function EntityDashboard() {
 
 /* --- MOBILE RESPONSIVENESS (Max Width 768px) --- */
 @media (max-width: 768px) {
-  /* 1. Reclaim screen real estate */
+  /* 1. Dashboard Container */
   .dashboardContainer {
     padding: 16px;
   }
@@ -7665,7 +7629,7 @@ import { useFocusTrap } from '../../../../hooks/useFocusTrap';
 import { calculateEventCapacity } from '../../../../utils/capacityMath';
 import styles from './page.module.css';
 
-const ITEMS_PER_PAGE = 9; // Perfect for a 3x3 grid
+const ITEMS_PER_PAGE = 9; 
 
 export default function StudentEventsPage() {
   const { session, loading: authLoading } = useSupabaseSession();
@@ -7796,7 +7760,7 @@ export default function StudentEventsPage() {
 
     setIsProcessing(true);
     try {
-      // --- 🚨 FIXED MULTI-DAY MATH 🚨 ---
+      // --- MULTI-DAY MATH ---
       let expectedHours = 0;
       
       if (selectedEvent.is_recurring && selectedEvent.recurrence_pattern && selectedDays.length > 0) {
@@ -7830,7 +7794,7 @@ export default function StudentEventsPage() {
 
       const selectedDaysString = selectedDays.length > 0 ? selectedDays.join(', ') : null;
 
-      // ATOMIC RPC CALL (Fixes the Race Condition)
+      // ATOMIC RPC CALL
       const { data, error } = await supabase.rpc('register_for_event_safely', {
         p_event_id: selectedEvent.id,
         p_student_id: userProfile.id,
@@ -8546,11 +8510,11 @@ export default function StudentDashboard() {
     try {
       setLoading(true);
 
-      // 1. Fetch Profile
+      // Fetch Profile
       const { data: userData } = await supabase.from('profiles').select('*').eq('id', session.user.id).single();
       setProfile(userData);
 
-      // 2. Fetch Global Platform Settings
+      // Fetch Global Platform Settings
       const { data: settingsData } = await supabase.from('system_settings').select('*').eq('id', 1).single();
       if (settingsData) {
         setGlobalGoals({
@@ -8559,7 +8523,7 @@ export default function StudentDashboard() {
         });
       }
 
-      // 3. Fetch Registrations
+      // Fetch Registrations
       const { data: regData, error } = await supabase
         .from('registrations')
         .select(`status, expected_hours, events ( hours, start_date )`)
@@ -8626,7 +8590,7 @@ export default function StudentDashboard() {
     if (reg.status === 'approved') filterApproved += hrs;
     if (reg.status === 'pending') filterPending += hrs;
 
-    // --- 🚨 ROBUST CHART TIME-WARP FIX 🚨 ---
+   
     const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
     
     // Explicit string formatting to guarantee "Jan '25" instead of relying on browser locale interpretations
@@ -8952,38 +8916,38 @@ export default function StudentDashboard() {
   margin-top: 0;
 }
 
-/* 1. Ensure the chart can scroll on mobile instead of squishing */
+
 .chartContainer {
   background: white;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  overflow-x: auto; /* 🚨 Adds horizontal scrolling on small screens */
+  overflow-x: auto; 
 }
 
-/* 2. Force a minimum width so the bars have room to breathe */
+
 .barChart {
   display: flex;
   height: 250px;
   align-items: flex-end;
   gap: 10px;
-  min-width: 600px; /* 🚨 Prevents the chart from shrinking too much */
+  min-width: 600px; 
 }
 
 .chartXAxis {
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
-  min-width: 600px; /* 🚨 Matches the barChart min-width */
+  min-width: 600px;
 }
 
-/* 3. Keep the new, longer labels perfectly formatted */
+
 .monthLabel {
-  font-size: 0.75rem; /* Slightly smaller to fit the year */
+  font-size: 0.75rem; 
   font-weight: 500;
   color: #64748b;
   text-align: center;
-  white-space: nowrap; /* 🚨 Prevents "Jan" and "'25" from stacking on two lines */
+  white-space: nowrap; 
 }
 
 .chartLegend {
@@ -9123,7 +9087,7 @@ export default function StudentDashboard() {
     font-size: 2.5rem;
   }
 
-  /* 4. THE CHART FIX: Make it swipeable! */
+  /* 4. THE CHART FIX*/
   .analyticsSection {
     padding: 1.5rem 1rem;
   }
@@ -9467,7 +9431,7 @@ export default function StudentSubmissionsPage() {
   const handleUpload = async () => {
     if (!file || !selectedSub) return;
 
-    // 🚨 TIME TRAVEL CHECK 🚨
+    //  TIME TRAVEL CHECK 
     const eventEndDate = new Date(selectedSub.events?.end_date || selectedSub.events?.start_date);
     eventEndDate.setHours(0, 0, 0, 0);
     const today = new Date();
@@ -10068,7 +10032,7 @@ export default function StudentSubmissionsPage() {
   --bg-main: #f8fafc;
   --bg-card: #ffffff;
   --text-primary: #0f172a;
-  --text-primary-brand: #003366; /* For UWI specific blue */
+  --text-primary-brand: #003366; 
   --text-secondary: #64748b;
   --border-light: #e2e8f0;
   --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
@@ -10080,7 +10044,7 @@ body[data-theme="Dark"] {
   --bg-main: #0f172a;
   --bg-card: #1e293b;
   --text-primary: #f8fafc;
-  --text-primary-brand: #f8fafc; /* Brand blue becomes white in dark mode */
+  --text-primary-brand: #f8fafc; 
   --text-secondary: #94a3b8;
   --border-light: #334155;
   --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
@@ -10092,7 +10056,7 @@ body[data-theme="High Contrast"] {
   --bg-main: #000000;
   --bg-card: #000000;
   --text-primary: #ffffff;
-  --text-primary-brand: #ffff00; /* High contrast yellow for titles */
+  --text-primary-brand: #ffff00; 
   --text-secondary: #ffffff;
   --border-light: #ffffff;
   --card-shadow: none;
@@ -10140,37 +10104,6 @@ body[data-theme="High Contrast"] div[class*="modal" i] > div {
   background-color: var(--bg-card) !important;
   color: var(--text-primary) !important;
   border: 2px solid var(--border-light) !important;
-}
-</file>
-
-<file path="src/app/layout.js">
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata = {
-  title: "Create Next App",
-  description: "Generated by create next app",
-};
-
-export default function RootLayout({ children }) {
-  return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
-    </html>
-  );
 }
 </file>
 
@@ -11289,14 +11222,14 @@ export default function DashboardLayout({ children, navItems, settingsPath, port
   }
 
   .portalBadge {
-    display: none; /* Hide badge on very small screens to save space */
+    display: none; 
   }
 
   .navLinks {
-    display: none; /* Hidden by default */
+    display: none; 
     flex-direction: column;
     position: absolute;
-    top: 70px; /* Right below the navbar */
+    top: 70px; 
     left: 0;
     width: 100%;
     background-color: var(--bg-card);
@@ -11309,7 +11242,7 @@ export default function DashboardLayout({ children, navItems, settingsPath, port
   }
 
   .navLinks.mobileActive {
-    display: flex; /* Shown when hamburger is clicked */
+    display: flex; 
   }
 
   .navLink {
@@ -11438,7 +11371,7 @@ export default function SharedProfile({ userType }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 🚨 NEW: Phone Number Auto-Formatter 🚨
+  // Phone Number Auto-Formatter 
   const handlePhoneChange = (e) => {
     // 1. Strip out all non-numeric characters
     const rawNumbers = e.target.value.replace(/\D/g, '');
@@ -11900,7 +11833,7 @@ export function useAsync(asyncFn = null, immediate = false) {
     setLoading(true);
     setError(null);
     try {
-      // 🚨 THE FIX: Check if the argument passed is a function itself. 
+      // Check if the argument passed is a function itself. 
       // If it is, run that. Otherwise, run the default asyncFn.
       const fnToRun = (typeof args[0] === 'function') ? args[0] : asyncFn;
       
@@ -11939,9 +11872,6 @@ export function useDebounce(value, delay = 500) {
 
   return debouncedValue;
 }
-
-// Usage — replaces the two useEffects in entity/events/page.js:
-// const debouncedSearch = useDebounce(searchQuery, 500);
 </file>
 
 <file path="src/hooks/useEventForm.js">
@@ -11989,9 +11919,6 @@ export function useEventForm(initialData = null) {
 
   return { formData, handleInputChange, toggleRecurringDay, resetForm, isMultiDay };
 }
-
-// Usage in entity/events/page.js — replaces ~25 lines:
-// const { formData, handleInputChange, toggleRecurringDay, resetForm, isMultiDay } = useEventForm();
 </file>
 
 <file path="src/hooks/useFocusTrap.js">
@@ -12102,9 +12029,6 @@ export function usePagination(itemsPerPage = 8) {
     canGoPrev: currentPage > 1,
   };
 }
-
-// Usage in entity/events/page.js — replaces ~6 state declarations and manual range math:
-// const { currentPage, from, to, setTotalCount, nextPage, prevPage, canGoNext, canGoPrev, pageInfo, reset } = usePagination(8);
 </file>
 
 <file path="src/hooks/useRedirectIfAuthenticated.js">
@@ -12178,10 +12102,6 @@ export function useSupabaseSession() {
 
   return { session, loading };
 }
-
-// Usage — replaces getSession() calls in every page:
-// const { session, loading } = useSupabaseSession();
-// if (loading) return <div>Loading...</div>;
 </file>
 
 <file path="src/lib/supabase-server.ts">
@@ -12332,7 +12252,7 @@ export function verifyAccess(userRole, isAdmin, accountStatus, targetRoute) {
 // src/utils/capacityMath.js
 
 export function calculateEventCapacity(requiredSpots, currentRegistrations) {
-  // NEW: Equivalence Class: Invalid Data Types (Strings, Booleans, NaN)
+  // Equivalence Class: Invalid Data Types (Strings, Booleans, NaN)
   if (
     (requiredSpots !== null && requiredSpots !== undefined && typeof requiredSpots !== 'number') || 
     typeof currentRegistrations !== 'number' ||
@@ -12368,13 +12288,11 @@ export function validateEventDates(startDateStr, endDateStr) {
   if (!startDateStr || !endDateStr) return { isValid: false, error: 'Missing dates' };
 
   // Check if the provided strings actually represent valid dates
-  // Date.parse() returns NaN if the string is gibberish like 'not-a-date'
   if (isNaN(Date.parse(startDateStr)) || isNaN(Date.parse(endDateStr))) {
     return { isValid: false, error: 'Invalid date format' };
   }
 
   // 1. Get today's local date directly from the system clock components.
-  // This completely bypasses .toISOString() and prevents the UTC timezone shift!
   const today = new Date();
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -12459,7 +12377,7 @@ export function calculateProjectedHours(hours, daysArray, isRecurring) {
   }
 
 
-  // If we reach here, it IS recurring. We must ensure daysArray is actually an array.
+  // 3. If we reach here, it IS recurring. Validate the days array
   if (!Array.isArray(daysArray)) {
     return 0;
   }
@@ -12480,7 +12398,6 @@ export function sanitizeUrl(url) {
     
     // Only allow safe, standard web and email protocols
     if (['http:', 'https:', 'mailto:'].includes(parsedUrl.protocol)) {
-      // If the user forgot 'http://', we prepend it so the link actually works instead of appending to localhost
       if (url.startsWith('www.')) {
         return `https://${url}`;
       }
@@ -13219,6 +13136,37 @@ export const Constants = {
     Enums: {},
   },
 } as const
+</file>
+
+<file path="src/app/layout.js">
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata = {
+  title: "UWI GIVEBACK BETA",
+  description: "Made for university project, not for commercial use",
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">{children}</body>
+    </html>
+  );
+}
 </file>
 
 </files>
