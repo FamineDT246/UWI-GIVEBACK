@@ -3,6 +3,9 @@
 ## 1. Sequential Baton-Pass Rule (No Concurrent Execution)
 This repository is developed sequentially across **ZCode** (GLM-5.3 / GLM-5.3-Flash) and **Google Antigravity** (Gemini 4 Argon / Gemini 4 Hydrogen / Gemini 3.8 Flash).
 - **On Session Start:** Always read `HANDOFF.md` before scanning the wider codebase. Verify the "Next Baton Target" matches your harness and active model role.
+- **Mandatory Pre-Flight & Phase-Boundary Scope Gate:** Before executing any request—and immediately after finishing any phase before starting the next checklist item—check if the upcoming work matches your active harness and model lane in Section 2 (e.g., visual/browser QA on text-only `GLM-5.3`, sustained multi-file coding on `Argon`, or open-ended architecture on `GLM-5.3-Flash`).
+- **Auto-Trigger:** If the upcoming work falls outside your lane and the prompt does NOT include `[OVERRIDE]`, **stop immediately without executing the out-of-scope work**, run the `session-handoff` skill, update `HANDOFF.md`, and halt with the Harness Switch Banner.
+- **Manual Override:** If the user includes `[OVERRIDE]`, bypass auto-handoff and execute the task in the current harness.
 - **Before Session Close:** Never leave uncommitted mystery state. When asked to wrap up or hand off, execute the `session-handoff` skill to validate builds and update `HANDOFF.md`.
 
 ## 2. Model Roles & Effort Matrix
